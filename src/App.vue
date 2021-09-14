@@ -6,6 +6,9 @@ const params = ref({
   factor: 123,
   title: 'hello',
   color: '#0f0',
+
+  percentage: 50,
+  theme: 'dark',
 })
 </script>
 
@@ -14,6 +17,9 @@ const params = ref({
     <TInput v-model="params.factor" name="factor"></TInput>
     <TInput v-model="params.title" name="title"></TInput>
     <TInput v-model="params.color" name="color"></TInput>
+
+    <TInput v-model="params.percentage" name="percentage" :opt-params="{min: 0, max: 100, step: 1}"></TInput>
+    <TInput v-model="params.theme" name="theme" :opt-params="{options: {Dark: 'dark', Light: 'light'}}"></TInput>
   </TPane>
 </template>
 

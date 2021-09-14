@@ -1,5 +1,6 @@
 import {defineComponent, h, inject, InjectionKey, onUnmounted, provide} from "vue";
 import {Pane} from 'tweakpane'
+import {InputParams} from "@tweakpane/core/src/blade/common/api/params";
 
 interface StateDefinition {
     pane: Pane
@@ -42,7 +43,8 @@ export let TInput = defineComponent({
     emits: { 'update:modelValue': (_value: any) => true },
     props: {
         modelValue: { type: [Object, String, Number, Boolean] },
-        name: { type: String, required: true }
+        name: { type: String, required: true },
+        optParams: { type: Object as () => InputParams, default: undefined}
     },
     render () {},
     setup (props, {emit}) {
@@ -52,7 +54,8 @@ export let TInput = defineComponent({
             [props.name]: props.modelValue,
         };
 
-        const input = api.pane.addInput(PARAMS, props.name);
+        const input = api.pane.addInput(PARAMS, props.name, props.optParams);
+
         input.on('change', ev => {
             emit('update:modelValue', ev.value);
         })
