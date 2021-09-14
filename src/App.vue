@@ -1,13 +1,19 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import {TPane, TInput} from './components/tweakpane';
+import {ref} from "vue";
+
+const params = ref({
+  factor: 123,
+  title: 'hello',
+  color: '#0f0',
+})
 </script>
 
 <template>
   <TPane>
-    <TInput></TInput>
-    <TInput></TInput>
+    <TInput v-model="params.factor" name="factor"></TInput>
+    <TInput v-model="params.title" name="title"></TInput>
+    <TInput v-model="params.color" name="color"></TInput>
   </TPane>
 </template>
 

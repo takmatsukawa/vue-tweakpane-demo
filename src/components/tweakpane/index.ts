@@ -5,7 +5,7 @@ interface StateDefinition {
     pane: Pane
 }
 
-let PaneContext = Symbol('PaneContext') as InjectionKey<StateDefinition>
+const PaneContext = Symbol('PaneContext') as InjectionKey<StateDefinition>
 
 function usePaneContext(component: string) {
     let context = inject(PaneContext, null)
@@ -39,17 +39,23 @@ export let TPane = defineComponent({
 
 export let TInput = defineComponent({
     name: 'TInput',
+    emits: { 'update:modelValue': (_value: any) => true },
+    props: {
+        modelValue: { type: [Object, String, Number, Boolean] },
+        name: { type: String, required: true }
+    },
     render () {},
-    setup () {
+    setup (props, {emit}) {
         const api = usePaneContext('TInput')
 
         const PARAMS = {
-            factor: 123,
-            title: 'hello',
-            color: '#0f0',
+            [props.name]: props.modelValue,
         };
 
-        const input = api.pane.addInput(PARAMS, 'factor');
+        const input = api.pane.addInput(PARAMS, props.name);
+        input.on('change', ev => {
+            emit('update:modelValue', ev.value);
+        })
 
         onUnmounted(() => api.pane.remove(input))
     }
