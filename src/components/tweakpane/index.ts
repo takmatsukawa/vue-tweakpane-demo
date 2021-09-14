@@ -1,4 +1,4 @@
-import {defineComponent, h, inject, InjectionKey, provide, Ref} from "vue";
+import {defineComponent, h, inject, InjectionKey, onUnmounted, provide} from "vue";
 import {Pane} from 'tweakpane'
 
 interface StateDefinition {
@@ -11,8 +11,7 @@ function usePaneContext(component: string) {
     let context = inject(PaneContext, null)
 
     if (context === null) {
-        let err = new Error(`<${component} /> is missing a parent <TPane /> component.`)
-        throw err
+        throw new Error(`<${component} /> is missing a parent <TPane /> component.`)
     }
 
     return context
@@ -35,8 +34,6 @@ export let TPane = defineComponent({
         }
 
         provide(PaneContext, api)
-
-        return {pane}
     }
 })
 
@@ -52,7 +49,8 @@ export let TInput = defineComponent({
             color: '#0f0',
         };
 
-        api.pane.addInput(PARAMS, 'factor');
+        const input = api.pane.addInput(PARAMS, 'factor');
 
+        onUnmounted(() => api.pane.remove(input))
     }
 })
