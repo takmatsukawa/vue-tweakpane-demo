@@ -13,7 +13,7 @@ const params = ref({
 </script>
 
 <template>
-  <TPane>
+  <TPane title="Tweakpane">
     <TFolder title="Group1">
       <TInput v-model="params.factor" name="factor"></TInput>
       <TInput v-model="params.title" name="title"></TInput>

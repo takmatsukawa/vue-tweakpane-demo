@@ -1,4 +1,4 @@
-import {defineComponent, h, inject, InjectionKey, onUnmounted, provide} from "vue";
+import {defineComponent, h, inject, InjectionKey, onUnmounted, provide, watch} from "vue";
 import {FolderApi, Pane} from 'tweakpane'
 import {InputParams} from "@tweakpane/core/src/blade/common/api/params";
 
@@ -18,8 +18,11 @@ function usePaneContext(component: string) {
     return context
 }
 
-export let TPane = defineComponent({
+export const TPane = defineComponent({
     name: 'TPane',
+    props: {
+      title: { type: String, default: undefined }
+    },
     render () {
         return h(
             'div',
@@ -27,8 +30,11 @@ export let TPane = defineComponent({
             this.$slots.default?.()
         )
     },
-    setup () {
-        const pane = new Pane();
+    setup (props) {
+        const pane = new Pane(props.title ? {
+            title: props.title
+        }: undefined);
+
         provide(PaneContext, {
             pane
         })
@@ -45,7 +51,7 @@ function useFolderContext(component: string) {
     return inject(FolderContext, null)
 }
 
-export let TFolder = defineComponent({
+export const TFolder = defineComponent({
     name: 'TFolder',
     render () {
         return h(
@@ -69,7 +75,7 @@ export let TFolder = defineComponent({
     }
 })
 
-export let TInput = defineComponent({
+export const TInput = defineComponent({
     name: 'TInput',
     emits: { 'update:modelValue': (_value: any) => true },
     props: {
