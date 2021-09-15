@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {TPane, TInput} from './components/tweakpane';
+import {TPane, TInput, TFolder} from './components/tweakpane';
 import {ref} from "vue";
 
 const params = ref({
@@ -18,8 +18,10 @@ const params = ref({
     <TInput v-model="params.title" name="title"></TInput>
     <TInput v-model="params.color" name="color"></TInput>
 
-    <TInput v-model="params.percentage" name="percentage" :opt-params="{min: 0, max: 100, step: 1}"></TInput>
-    <TInput v-model="params.theme" name="theme" :opt-params="{options: {Dark: 'dark', Light: 'light'}}"></TInput>
+    <TFolder title="Folder">
+      <TInput v-model="params.percentage" name="percentage" :opt-params="{min: 0, max: 100, step: 1}"></TInput>
+      <TInput v-model="params.theme" name="theme" :opt-params="{options: {Dark: 'dark', Light: 'light'}}"></TInput>
+    </TFolder>
   </TPane>
 </template>
 
